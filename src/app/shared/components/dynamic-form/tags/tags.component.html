@@ -1,0 +1,28 @@
+<div formArrayName="tags">
+    @if (tagsArray.length >0) {
+        <mat-chip-listbox class="border border-gray-300 rounded-lg p-2 w-full mt-2">
+          @for (control of tagsArray.controls; track $index) {
+            <mat-chip-option
+              [selected]="true"
+              [removable]="true"
+              (removed)="removeTag($index)">
+              {{ control.value }}
+              <button matChipRemove [attr.aria-label]="'remove ' + control.value">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+    }
+
+  <!-- Add new tags -->
+  <mat-form-field class="w-full mt-2" appearance="outline">
+    <mat-chip-grid #chipGrid aria-label="Enter tags">
+      <input
+        placeholder="Add tag here and press Enter..."
+        [matChipInputFor]="chipGrid"
+        [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="addTag($event)" />
+    </mat-chip-grid>
+  </mat-form-field>
+</div>

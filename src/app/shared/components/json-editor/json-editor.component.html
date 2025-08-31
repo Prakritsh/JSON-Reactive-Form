@@ -1,0 +1,40 @@
+<div class="h-full bg-white rounded-br rounded-tr">
+<mat-card class="min-h-screen">
+<mat-card-header class="flex items-center justify-between w-full">
+    <mat-card-title class="flex items-center gap-2">
+        <mat-icon>code</mat-icon>
+        JSON Input/Output        
+    </mat-card-title>
+    <button mat-icon-button  matTooltip="Copy JSON Sample" (click)="copySampleJson()">
+        <mat-icon>copy_all</mat-icon>
+    </button>
+</mat-card-header>
+      
+      <mat-card-content>
+<mat-form-field class="w-full" [formGroup]="jsonForm">
+  <mat-label>Paste JSON to update form</mat-label>
+  <textarea
+    formControlName="jsonInput"
+    (input)="onJsonInputChange()"
+    matInput
+    class="font-mono text-sm min-h-96 resize-none"
+    placeholder="Paste valid JSON here to update the form...">
+  </textarea>
+
+</mat-form-field>
+
+    @if (invalidJson) {
+  <mat-error >
+    Invalid JSON format
+  </mat-error>
+    }    
+
+        @if (copySuccess()) {
+          <div class="mt-2 text-green-600 text-sm flex items-center gap-1">
+            <mat-icon class="text-base">check_circle</mat-icon>
+            Copied to clipboard!
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+    </div>

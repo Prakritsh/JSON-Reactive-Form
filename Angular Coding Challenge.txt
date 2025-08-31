@@ -1,0 +1,79 @@
+Angular JSON <=> Reactive Form Challenge
+A dynamic Angular application that creates reactive forms from JSON schemas and maintains bidirectional synchronization between form controls and JSON data.
+
+This application demonstrates the ability to:
+Parse JSON documents and dynamically generate Angular Reactive Forms
+Maintain real-time synchronization between form inputs and JSON output
+Handle complex data structures including nested objects and arrays using formgroup, form array, formcontrol etc.(reactive Forms module)
+With validation and error handling
+JSON Schema Import/Export: Users can copy a sample JSON schema to understand the expected format and paste their own configuration for automatic parsing and population of the form.
+LocalStorage: User data is automatically persisted to the browser's localStorage. On application initialization, it checks for existing data and loads it directly into the form, creating a continuous user experience across sessions.
+
+Prerequisites
+Node.js (v18 or higher)
+npm or yarn
+Angular CLI (v18)
+
+# Clone the repository
+git clone <repository-url>
+cd angular-json-reactive-form
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+
+# The application will be available at http://localhost:4200
+
+2. Frontend Architecture
+Angular v18 with modern features and standalone components
+Angular Signals for reactive state management and change detection optimization (major use of effect, computed to detect change of json input or update Form value)
+RxJS for handling asynchronous data streams and form synchronization (used operator such as debounceTime(), distinctUntilChanged() to handle the formValuechange)
+Reactive Forms using FormGroup, FormArray, and FormControl for dynamic form generation
+	1. FormGroup to manage the entire form.
+	2. FormArray to dynamically manage a list of user-defined tags and members, allowing users to add and remove items.
+	3. FormControl for individual input fields.
+Validation: Custom validation logic was implemented to ensure data integrity:
+	1. Custom Validator: A validator was created for the theme field to ensure the selected value is from a predefined list of allowed options.
+	2. Sync Validators: Used on the refreshInterval field to guarantee it must be a positive number. The name field uses validators to require a minimum of 3 characters.
+	3. Invalid JSON Format : A Invalid Json format text is shown to notify user.
+Services for cross-component communication and business logic
+Angular Material , Tailwind CSS for consistent component design , accessibility, styling and responsive design
+
+3.Assumptions
+The JSON data pasted by the user perfectly matches the expected form structure.
+The data stored in localStorage is trusted and does not require sanitization before being loaded into the form.
+The application is a single-page application (SPA) without a complex backend, making localStorage a sufficient persistence solution.
+The JSON will follow the provided sample format with name, description, tags, settings, and members
+Fixed schema structure:
+
+export interface ProjectSchema {
+  name: string;
+  description: string;
+  tags: string[];
+  settings: {
+    notifications: boolean;
+    theme: 'light' | 'dark' | 'system';
+    refreshInterval: number;
+  };
+  members: Member[];
+}
+export interface Member {
+  id: number;
+  name: string;
+  role: string;
+}
+
+
+4. Future Improvement
+JSON Schema validation for stricter input validation
+Handle the json structure and sizes
+Drag-and-drop reordering for member items or sort based on ID, Validate dublication of member by ID
+OnPush change detection strategy for better performance
+Make the form builder generic enough that a different schema could be plugged in.
+Add features like a confirmation dialog before removing tags/members and a more visually appealing JSON schema preview.
+Better error boundaries and user feedback
+
+
+

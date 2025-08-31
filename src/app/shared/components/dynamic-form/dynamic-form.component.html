@@ -1,0 +1,81 @@
+<div class="min-h-screen bg-gray-100 flex p-2   rounded-bl rounded-tl">
+  <div class="w-full">
+    <div class="flex justify-center items-center text-xl font-bold py-4 rounded-xl shadow-lg mb-6">
+     <span class="bg-[#637AE3] rounded-lg p-1"> 📝</span> Reactive Form
+    </div>
+    <form [formGroup]="reactiveForm" (ngSubmit)="submit()"  class="bg-white pt-6 rounded-xl shadow-md space-y-2 w-full p-4">
+      
+    <div class="flex items-center text-2xl font-bold text-gray-800">
+        <mat-icon class="mr-1" >import_contacts</mat-icon>
+        Basic Information
+    </div>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter your name">
+  @if (name?.invalid && name?.touched) {
+  <div>
+    @if (name?.errors?.['minlength']) {
+      <span class="text-red-500">Name must be at least 3 characters</span>
+    }
+  </div>
+}
+      </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Description</mat-label>
+            <textarea
+                matInput
+                formControlName="description"
+                placeholder="Enter a description"
+                rows="4"
+            ></textarea>
+        <mat-hint>Provide a brief description (optional)</mat-hint>
+    </mat-form-field>
+
+<mat-label class="flex items-center text-lg font-bold text-gray-800 mt-6">Tags</mat-label>
+<app-tags [tagsArray]="tags" ></app-tags>
+
+
+<div [formGroupName]="'settings'" >
+    <div class ="flex items-center text-lg font-bold text-gray-800 mt-6">
+         <mat-icon>settings</mat-icon> 
+         <label>Setting</label>
+      </div>
+   <div class="flex items-center text-gray-600"> 
+    Notification:
+          <mat-slide-toggle formControlName="notifications"
+           class="ml-4">
+          </mat-slide-toggle>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Theme</mat-label>
+      <mat-icon matSuffix>routine</mat-icon>
+      <mat-select formControlName="theme">
+        @for (item of theme; track $index) {
+          <mat-option [value]="item">{{ item | titlecase }}</mat-option>
+        }
+      </mat-select>
+      @if (settingsGroup.get('theme')?.errors?.['invalidTheme']) {
+      <span class="text-red-600 text-sm" >
+  Theme must be one of: light, dark, or system
+</span>
+      }
+
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Refresh Interval (seconds)</mat-label>
+      <input formControlName="refreshInterval" matInput type="number" min="1"  >
+  @if (settingsGroup.get('refreshInterval')?.errors?.['min']) {
+    <span class="text-red-600 text-sm">
+      Refresh Interval must be at least 1 second
+    </span>
+  }
+    </mat-form-field>
+  </div>
+</div>
+<!-- Member compnent-->
+<app-members [membersArray]="members" ></app-members>
+<button mat-raised-button color="primary" class="w-full mt-2" (click)="submit()" >
+    Submit
+</button>
