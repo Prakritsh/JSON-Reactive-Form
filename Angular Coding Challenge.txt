@@ -15,7 +15,7 @@ npm or yarn
 Angular CLI (v18)
 
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Prakritsh/JSON-Reactive-Form.git
 cd angular-json-reactive-form
 
 # Install dependencies
